@@ -3,7 +3,7 @@
 Static site for Maggie Hall's practice. Plain HTML, CSS and one small JS file —
 no build step, no framework, no dependencies. Edit a file, commit, push.
 
-**Live:** https://puzzlepeaceadhd.co.uk
+**Live:** https://www.puzzlepeaceadhd.co.uk
 **Repo:** `prismatic-minds/puzzle-peace-website`
 **Host:** Netlify, auto-deploying from `main`
 
@@ -53,12 +53,19 @@ command, the repo root *is* the site.
 
 | Domain | Behaviour |
 |---|---|
-| `puzzlepeaceadhd.co.uk` | Canonical. Every `<link rel="canonical">` and `og:url` points here. |
-| `www.puzzlepeaceadhd.co.uk` | 301 to the apex |
-| `puzzlepeaceaudhd.co.uk` | Typo-guard alias, 301 to the apex |
+| `www.puzzlepeaceadhd.co.uk` | Canonical. Every `<link rel="canonical">` and `og:url` points here. |
+| `puzzlepeaceadhd.co.uk` | 301 to www |
+| `puzzlepeaceaudhd.co.uk` | Typo-guard alias, 301 to www |
 
 Redirects and the alias are configured as **domains in the Netlify UI**, not as
-redirects in `netlify.toml`. Registrar is Porkbun.
+redirects in `netlify.toml`. Registrar is Porkbun, and DNS stays there.
+
+**Why www rather than the bare domain:** DNS forbids a CNAME at a zone apex, so
+`puzzlepeaceadhd.co.uk` has to be hardcoded A records pointing at Netlify's load
+balancer — two static IPv4 addresses, no IPv6, and manual updating if Netlify
+ever changes them. `www` is a CNAME to the Netlify site, which resolves to the
+live edge, gets IPv6, and needs no maintenance. The short form still works for
+anything printed; it just redirects.
 
 If the domain ever changes, the absolute URLs are hardcoded in all seven pages
 (canonical, `og:url`, `og:image`), plus `robots.txt`, `sitemap.xml` and the

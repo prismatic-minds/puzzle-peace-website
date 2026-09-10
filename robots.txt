@@ -3,4 +3,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://puzzlepeaceadhd.co.uk/sitemap.xml
+Sitemap: https://www.puzzlepeaceadhd.co.uk/sitemap.xml
