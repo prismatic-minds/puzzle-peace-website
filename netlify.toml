@@ -1,0 +1,31 @@
+# Puzzle Peace ADHD Coaching and Psychotherapy
+# Static HTML: nothing to build, the repo root is the site.
+
+[build]
+  publish = "."
+
+# Netlify serves 404.html for unmatched paths automatically, so no catch-all
+# redirect is needed here. The www -> apex redirect and the
+# puzzlepeaceaudhd.co.uk alias are configured as domains in the Netlify UI,
+# not in this file.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+    # 'unsafe-inline' is required for both scripts and styles: the pages use
+    # inline style attributes throughout and an inline onerror handler on the
+    # header logo. The value is still worth setting, because it pins every
+    # external origin the site is allowed to talk to.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'none'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+
+# Images are not content-hashed, so this is a deliberate trade-off: a week of
+# caching for repeat visitors, at the cost of a stale image for up to a week if
+# one is replaced in place. Rename the file to bust it sooner.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
