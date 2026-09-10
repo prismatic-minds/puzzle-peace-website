@@ -26,6 +26,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
+/* Images carry width/height attributes so they reserve space before loading.
+   Those attributes also set a presentational height, which would otherwise
+   beat any aspect-ratio; height:auto lets the ratio win while keeping the
+   attributes doing their job. */
+img { max-width: 100%; height: auto; }
+
 body {
   font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
   background-color: var(--bg);
