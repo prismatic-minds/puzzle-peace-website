@@ -31,11 +31,16 @@ sitemap.xml           All seven public pages
 ## Working on it locally
 
 ```bash
-python -m http.server 8777
+npx http-server . -p 8777 -c-1
 ```
 
-Then open http://localhost:8777. Use a server rather than opening the files
-directly — `404.html` and the root-absolute paths need one to behave correctly.
+Then open http://localhost:8777.
+
+Use **this** server, not `python -m http.server`. Pages link to each other by
+clean URL (`/about`, not `/about.html`), and `http-server` resolves those to the
+matching `.html` file the same way Netlify does. Python's server does not, so
+every internal link 404s under it. Opening the files directly with `file://`
+fails for the same reason, plus the root-absolute paths.
 
 ## Deploying
 
@@ -84,8 +89,14 @@ would let it be tightened. The CSP otherwise allows only Google Fonts
 **Images cache for a week and are not content-hashed.** Replacing one in place
 can serve stale for up to seven days. Rename the file instead.
 
+**URLs are extensionless.** `/about` is canonical, not `/about.html`. Netlify
+serves both, so the `.html` form is a live duplicate — the canonical tags, OG
+tags, sitemap, JSON-LD and every internal link all deliberately use the clean
+form. Keep new links in that form.
+
 **Adding a page?** Add it to `sitemap.xml`, the footer sitemap column, the nav if
-it belongs there, and give it a canonical tag and OG block matching the others.
+it belongs there, and give it a canonical tag and OG block matching the others,
+all using the clean URL.
 
 **There is deliberately no contact form.** Maggie asked for phone and email only.
 
