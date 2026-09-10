@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Replace [your-domain] with your actual domain, e.g. https://puzzlepeace.co.uk -->
-
   <url>
-    <loc>https://[your-domain]/</loc>
+    <loc>https://puzzlepeaceadhd.co.uk/</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://[your-domain]/about.html</loc>
+    <loc>https://puzzlepeaceadhd.co.uk/services.html</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://puzzlepeaceadhd.co.uk/adhd-coaching.html</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://puzzlepeaceadhd.co.uk/psychotherapy.html</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://puzzlepeaceadhd.co.uk/about.html</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://[your-domain]/services.html</loc>
-    <priority>0.9</priority>
+    <loc>https://puzzlepeaceadhd.co.uk/contact.html</loc>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>monthly</changefreq>
-  </url>
-
-  <url>
-    <loc>https://[your-domain]/book.html</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <url>
-    <loc>https://[your-domain]/contact.html</loc>
     <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
   </url>
 
   <url>
-    <loc>https://[your-domain]/privacy-policy.html</loc>
-    <priority>0.3</priority>
+    <loc>https://puzzlepeaceadhd.co.uk/privacy-policy.html</loc>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 
 </urlset>

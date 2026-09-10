@@ -1,8 +1,6 @@
-# robots.txt — Puzzle Peace ADHD Coaching
-# Replace [your-domain] with your actual domain once live
+# robots.txt — Puzzle Peace ADHD Coaching and Psychotherapy
 
 User-agent: *
 Allow: /
-Disallow:
 
-Sitemap: https://[your-domain]/sitemap.xml
+Sitemap: https://puzzlepeaceadhd.co.uk/sitemap.xml
