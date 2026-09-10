@@ -1,121 +1,127 @@
-# Puzzle Peace ADHD Coaching — Website
+# Puzzle Peace ADHD Coaching and Psychotherapy — Website
 
-A static website for Puzzle Peace ADHD Coaching, ready to host on GitHub Pages.
+Static site for Maggie Hall's practice. Plain HTML, CSS and one small JS file —
+no build step, no framework, no dependencies. Edit a file, commit, push.
+
+**Live:** https://puzzlepeaceadhd.co.uk
+**Repo:** `prismatic-minds/puzzle-peace-website`
+**Host:** Netlify, auto-deploying from `main`
+
+---
 
 ## Files
 
 ```
-puzzle-peace/
-├── index.html          ← Home page
-├── about.html          ← About Me
-├── services.html       ← Services & Pricing
-├── contact.html        ← Contact (email + GDPR info)
-├── privacy-policy.html ← Privacy Policy (UK GDPR compliant)
-├── css/
-│   └── style.css       ← All styles
-├── js/
-│   └── main.js         ← Mobile nav toggle + active link highlighting
-├── images/
-│   └── logo.png        ← ⚠️ You need to copy your logo here (see below)
-└── README.md
+404.html              Served for any unmatched URL
+index.html            Home
+about.html            About Maggie
+services.html         Overview of both services
+adhd-coaching.html    ADHD coaching, how it works, pricing
+psychotherapy.html    Integrative psychotherapy, how it works, pricing
+contact.html          Phone and email, what happens next
+privacy-policy.html   UK GDPR privacy policy
+css/style.css         All styles
+js/main.js            Mobile nav toggle and active-link highlighting
+images/               See "Images" below
+netlify.toml          Publish directory, security headers, cache rules
+robots.txt            Allows everything, points at the sitemap
+sitemap.xml           All seven public pages
 ```
+
+## Working on it locally
+
+```bash
+python -m http.server 8777
+```
+
+Then open http://localhost:8777. Use a server rather than opening the files
+directly — `404.html` and the root-absolute paths need one to behave correctly.
+
+## Deploying
+
+Push to `main`. Netlify builds and publishes automatically; there is no build
+command, the repo root *is* the site.
 
 ---
 
-## Before you go live: things to fill in
+## Domains
 
-Search the HTML files for `[` — every bracketed placeholder needs updating:
+| Domain | Behaviour |
+|---|---|
+| `puzzlepeaceadhd.co.uk` | Canonical. Every `<link rel="canonical">` and `og:url` points here. |
+| `www.puzzlepeaceadhd.co.uk` | 301 to the apex |
+| `puzzlepeaceaudhd.co.uk` | Typo-guard alias, 301 to the apex |
 
-| Placeholder | Where | What to put |
+Redirects and the alias are configured as **domains in the Netlify UI**, not as
+redirects in `netlify.toml`. Registrar is Porkbun.
+
+If the domain ever changes, the absolute URLs are hardcoded in all seven pages
+(canonical, `og:url`, `og:image`), plus `robots.txt`, `sitemap.xml` and the
+JSON-LD blocks in `index.html` and `contact.html`. Grep for the old domain.
+
+---
+
+## Things that will bite you
+
+**`img { max-width: 100%; height: auto; }` in the reset must stay.** Images
+carry `width`/`height` attributes so they reserve space while loading, but those
+attributes also set a *presentational height* that beats `aspect-ratio`. Without
+`height: auto`, any image using `aspect-ratio` renders at full intrinsic height.
+This shipped as a bug once already.
+
+**`404.html` uses root-absolute paths throughout** (`/css/style.css`, not
+`css/style.css`). Netlify serves it from any unmatched URL, so relative paths
+would resolve against whatever directory the visitor asked for and the page
+would come out unstyled with dead links. Keep every path in that file starting
+with `/`.
+
+**The CSP in `netlify.toml` needs `'unsafe-inline'`** for scripts and styles,
+because the pages use inline `style` attributes throughout and an inline
+`onerror` on the header logo. Moving those into the stylesheet and `main.js`
+would let it be tightened. The CSP otherwise allows only Google Fonts
+(`fonts.googleapis.com` for the stylesheet, `fonts.gstatic.com` for the files).
+
+**Images cache for a week and are not content-hashed.** Replacing one in place
+can serve stale for up to seven days. Rename the file instead.
+
+**Adding a page?** Add it to `sitemap.xml`, the footer sitemap column, the nav if
+it belongs there, and give it a canonical tag and OG block matching the others.
+
+**There is deliberately no contact form.** Maggie asked for phone and email only.
+
+---
+
+## Images
+
+| File | Used for | Notes |
 |---|---|---|
-| `[Coach Name]` | All pages | Your name |
-| `[location]` | index, about, services | Your town/area |
-| `[ICO Number TBC]` | All pages + privacy policy | Your ICO registration number |
-| `[Body Name TBC]` | All pages | E.g. ICF, ADHD Coaches Organisation |
-| `[Number TBC]` | All pages | Your membership number |
-| `hello@puzzlepeace.co.uk` | contact, privacy policy | Your real email address |
-| `[Month Year]` | privacy-policy.html | Date the policy was last updated |
-| `[X] months / years` | privacy-policy.html | Your actual data retention periods |
-| `[payment method / provider]` | privacy-policy.html | E.g. bank transfer, Stripe |
-| `[email provider]` | privacy-policy.html | E.g. Gmail, Outlook |
-| `£[TBC]` | services.html | Your pricing |
-| `[Personal story]` | about.html | Your own story/bio content |
+| `logo.png` (480×480) | Homepage hero, JSON-LD `logo` | Don't shrink below 480 — the hero renders it at up to 240px |
+| `logo-mark.png` (235×180) | Header | The brain-dove alone; the full logo's wordmark is illegible at header size and duplicates the text beside it |
+| `favicon.png` (32×32) | Browser tab | |
+| `apple-touch-icon.png` (180×180) | iOS home screen | |
+| `og-image.png` (1200×630) | Social sharing card | Logo on the brand cream |
+| `maggie.webp` (860×1146) | About and home | WebP, no JPEG fallback |
 
----
-
-## Adding your logo
-
-1. Copy your logo file to `images/logo.png`
-   - Your logo is currently at: `C:\Users\sarah\OneDrive\Documents\Untitled design (10).png`
-   - Copy it to this folder and rename it `logo.png`
-2. If possible, use a version with a **transparent background** (PNG format) —
-   this looks cleaner in the nav bar. You can export this from Canva.
-
-The nav bar falls back gracefully to text if the logo file is missing.
-
----
-
-## Deploying to GitHub Pages
-
-### First time setup
-
-1. Create a new repository on GitHub (e.g. `puzzle-peace-website`)
-2. Make sure the repository is **Public** (required for free GitHub Pages)
-3. In your terminal, from this folder:
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/puzzle-peace-website.git
-git push -u origin main
-```
-
-4. In your GitHub repository, go to **Settings → Pages**
-5. Under **Source**, select **Deploy from a branch**
-6. Choose `main` branch, `/ (root)` folder, and click **Save**
-7. Your site will be live at `https://YOUR-USERNAME.github.io/puzzle-peace-website/` within a few minutes
-
-### Updating the site later
-
-After making changes to any files:
-
-```bash
-git add .
-git commit -m "Update [describe what you changed]"
-git push
-```
-
-GitHub Pages will automatically rebuild and publish the updated site.
-
----
-
-## Custom domain (e.g. puzzlepeace.co.uk)
-
-If you purchase a domain, you can connect it to GitHub Pages:
-
-1. In your domain registrar, add a CNAME record pointing to `YOUR-USERNAME.github.io`
-2. In GitHub Pages settings, enter your custom domain
-3. GitHub will issue a free SSL certificate automatically
+Total ~200KB across the site. Keep it that way: resize to roughly twice the
+displayed size and compress, rather than dropping in camera originals.
 
 ---
 
 ## Design notes
 
-- **Font:** Nunito (loaded from Google Fonts) — dyslexia-friendly, rounded letterforms
-- **Background:** `#fff7d0` (warm cream — never pure white)
-- **Text:** `#284859` (dark teal — never pure black)
-- **Accents:** `#91c0bc` (teal) and `#bbd1b0` (sage green)
-- **Line length:** capped at 65 characters for comfortable reading
-- **Line height:** 1.85 — generous spacing throughout
-- **No justified text** — all text is left-aligned for dyslexia accessibility
-- **Mobile responsive** — hamburger menu on small screens
+- **Font:** Nunito, from Google Fonts — dyslexia-friendly rounded letterforms
+- **Background:** `#fff7d0` warm cream, never pure white
+- **Text:** `#284859` dark teal, never pure black
+- **Accents:** `#91c0bc` teal, `#bbd1b0` sage
+- **Line length** capped at 65 characters, **line height** 1.85
+- **Left-aligned throughout** — no justified text, for dyslexia accessibility
+- Hamburger nav below 768px
+
+These aren't arbitrary: the whole palette and typography are chosen for
+readability by neurodivergent visitors. Keep that in mind before changing them.
 
 ---
 
-## Contact
+## Registrations shown in the footer
 
-To add your content or make changes, edit the relevant `.html` file in any
-text editor (e.g. Notepad, VS Code). The site is plain HTML/CSS — no build
-tools or frameworks required.
+ICO `ZC033803` · UKCP membership `10161098`
